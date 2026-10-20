@@ -32,6 +32,7 @@ int main(void) {
     int center_y = height/2;
 
     int player1 = center_y - 2;
+    int player2 = center_y - 2;
 
     while (!exit) {
         curs_set(0);
@@ -40,6 +41,7 @@ int main(void) {
 
         box(W, '|', '-');
         mvwvline(W, player1, 1, '0', 4);
+        mvwvline(W, player2, width - 2, '0', 4);
 
         wrefresh(W);
 
@@ -49,14 +51,24 @@ int main(void) {
             case 27:
                 exit = true;
                 break;
-            case KEY_DOWN:
+            case 's':
                 if(height - 2 != player1 + 3) {
                     player1++;
                 }
                 break;
-            case KEY_UP:
+            case 'w':
                 if(1 != player1) {
                     player1--;
+                }
+                break;
+            case KEY_DOWN:
+                if(height - 2 != player2 + 3) {
+                    player2++;
+                }
+                break;
+            case KEY_UP:
+                if(1 != player2) {
+                    player2--;
                 }
                 break;
         }
