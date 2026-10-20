@@ -1,32 +1,6 @@
 #include <pdcurses.h>
-#include <string.h>
 #include <windows.h>
 #include <iostream>
-
-/*
-class place {
-    public:
-        int x1;
-        int x2;
-        int y1;
-        int y2;
-        char v[2];
-        char h[2];
-    
-    place (const int X1, const int Y1, const int X2, const int Y2, const char *V, const char *H) {
-        x1 = X1;
-        x2 = X2;
-        y1 = Y1;
-        y2 = Y2;
-        strcpy(v, V);
-        strcpy(h, H);
-    }
-};
-*/
-struct line {
-
-};
-
 
 int main(void) {
     initscr();
@@ -44,7 +18,7 @@ int main(void) {
 
     int height = rows < 20 ? rows : 20;
     int width = cols < 60 ? cols : 60;
-    WINDOW* W = newwin(height, width, rows/3, cols/2);
+    WINDOW* W = newwin(height, width, 0, 0);
     SetConsoleTitleA("ale es tonto");
     if (W == nullptr) {
         endwin();
@@ -55,13 +29,17 @@ int main(void) {
 
     bool exit = false;
 
+    int center_y = height/2;
+
+    int player1 = center_y - 2;
+
     while (!exit) {
         curs_set(0);
 
         wclear(W);
 
         box(W, '|', '-');
-        mvwvline(W, 1, 1, '0', 4);
+        mvwvline(W, player1, 1, '0', 4);
 
         wrefresh(W);
 
@@ -70,6 +48,16 @@ int main(void) {
         switch (enter) {
             case 27:
                 exit = true;
+                break;
+            case KEY_DOWN:
+                if(height - 2 != player1 + 3) {
+                    player1++;
+                }
+                break;
+            case KEY_UP:
+                if(1 != player1) {
+                    player1--;
+                }
                 break;
         }
     }
