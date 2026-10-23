@@ -105,21 +105,18 @@ int main(void) {
                 for (int i = 0; i < 4; i++) {
                     if (boll.y == i + player1) {
                         boll.d[0] = 1;
-                        std::cout << "toco\n";
                     }
                 }
             } else if (boll.x == width - 3 || boll.x == width - 2) {
                 for (int i = 0; i < 4; i++) {
                     if (boll.y == i + player2) {
                         boll.d[0] = 0;
-                        std::cout << "toco\n";
                     }
                 }
             }
 
         auto ahora = std::chrono::steady_clock::now();
         if (ahora - ultimoMovimiento >= std::chrono::milliseconds(65)) {
-            // Mover la pelota según su dirección
             boll.x += boll.d[0] == 0 ? -1 : 1;
             boll.y += boll.d[1] == 0 ? -1 : 1;
 
@@ -131,7 +128,7 @@ int main(void) {
             
         }
 
-    napms(16); // pausa breve; evita que el bucle corra sin límite
+    napms(16); 
 
         int enter = wgetch(W);
         if (boll.x == 0) {
