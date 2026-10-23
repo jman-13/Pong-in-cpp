@@ -15,13 +15,17 @@ class ball {
     public:
         int x;
         int y;
-        int v;
+        float Qx;
+        float Qy;
+        float v[2];
         int d[2] = {elegir(generador), elegir(generador)};
         // d[0] = izquierda 0, derecha 1
         // d[1] = arriba 0, abajo 1
     ball(const int _y,const int _x) {
         x = _x;
         y = _y;
+        Qx = _x;
+        Qy = _y;
     }
 };
 
@@ -75,11 +79,17 @@ int main(void) {
     int player2 = center_y - 2;
 
     ball boll(center_y, center_x);
+    boll.v[0] = 0.5;
+    boll.v[1] = 0.6;
+    
+    int L = -1;
+    int antL = -1;
 
     nodelay(W, TRUE);
     
-    auto ultimoMovimiento = std::chrono::steady_clock::now();
+    auto ultimoMovimiento = std::chrono::steady_clock::now();auto ultimoMovimiento1 = std::chrono::steady_clock::now();
     while (!exit) {
+        std::cout << (L != antL);
         curs_set(0);
 
         wclear(W);
@@ -114,21 +124,33 @@ int main(void) {
                     }
                 }
             }
+        L = boll.d[1];
 
         auto ahora = std::chrono::steady_clock::now();
+        auto ahora1 = std::chrono::steady_clock::now();
         if (ahora - ultimoMovimiento >= std::chrono::milliseconds(65)) {
-            boll.x += boll.d[0] == 0 ? -1 : 1;
-            boll.y += boll.d[1] == 0 ? -1 : 1;
+            boll.Qy += boll.d[1] == 0 ? -boll.v[1] : boll.v[1];
 
             ultimoMovimiento = ahora;
             
-            if (boll.y == 1 || boll.y == height - 2) {
+            if ((boll.y == 1 || boll.y == height - 2) && L != antL) {
+                antL = boll.d[1];
                 boll.d[1] = boll.d[1] == 0 ? 1 : 0;
+                boll.Qy += boll.d[1] == 0 ? -2 : 2;
             }
             
         }
+        if (ahora1 - ultimoMovimiento1 >= std::chrono::milliseconds(15)) {
+            boll.Qx += boll.d[0] == 0 ? -boll.v[0] : boll.v[0];
+
+            ultimoMovimiento1 = ahora1;
+            
+        }
+        
 
     napms(16); 
+        boll.x = boll.Qx;
+        boll.y = boll.Qy;
 
         int enter = wgetch(W);
         if (boll.x == 0) {
