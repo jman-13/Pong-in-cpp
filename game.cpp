@@ -90,10 +90,12 @@ int main(void) {
         mvwprintw(W, boll.y, boll.x, "o");
 
         if (win != 0) {
-            if (win == 1) {
-                mvwprintw(W, center_y, center_x - 10, "haz ganado jugador dos, Pulsa 'r' pra volver a jugar");
-            } else if (win == 2) {
-                mvwprintw(W, center_y, center_x - 10, "haz ganado jugador uno, Pulsa 'r' pra volver a jugar");
+            if (win == 2) {
+                mvwprintw(W, center_y, center_x - 10, "haz ganado jugador dos");
+                mvwprintw(W, center_y + 1, center_x - 10, "Pulsa 'r' para volver a jugar");
+            } else if (win == 1) {
+                mvwprintw(W, center_y, center_x - 10, "haz ganado jugador uno");
+                mvwprintw(W, center_y + 1, center_x - 10, "Pulsa 'r' para volver a jugar");
             }
         }
 
