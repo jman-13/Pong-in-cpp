@@ -79,17 +79,17 @@ int main(void) {
     int player2 = center_y - 2;
 
     ball boll(center_y, center_x);
-    boll.v[0] = 0.5;
-    boll.v[1] = 0.6;
+    boll.v[0] = 0.25;
+    boll.v[1] = 0.3;
     
-    int L = -1;
-    int antL = -1;
+    int L = 0;
+    int PrefL;
+    int antL = -2;
 
     nodelay(W, TRUE);
     
     auto ultimoMovimiento = std::chrono::steady_clock::now();auto ultimoMovimiento1 = std::chrono::steady_clock::now();
     while (!exit) {
-        std::cout << (L != antL);
         curs_set(0);
 
         wclear(W);
@@ -115,16 +115,27 @@ int main(void) {
                 for (int i = 0; i < 4; i++) {
                     if (boll.y == i + player1) {
                         boll.d[0] = 1;
+                        boll.v[0] += 0.1;
+                        break;
                     }
                 }
             } else if (boll.x == width - 3 || boll.x == width - 2) {
                 for (int i = 0; i < 4; i++) {
                     if (boll.y == i + player2) {
                         boll.d[0] = 0;
+                        boll.v[0] += 0.1;
+                        break;
                     }
                 }
             }
-        L = boll.d[1];
+            
+        if (boll.y == 1) {
+            L = -1;
+        } else if (boll.y == height - 2) {
+            L = 1;
+        } else {
+            L = 0;
+        }
 
         auto ahora = std::chrono::steady_clock::now();
         auto ahora1 = std::chrono::steady_clock::now();
@@ -133,10 +144,15 @@ int main(void) {
 
             ultimoMovimiento = ahora;
             
-            if ((boll.y == 1 || boll.y == height - 2) && L != antL) {
-                antL = boll.d[1];
+            if ((boll.Qy <= 1 || boll.Qy >= height - 2) && L != antL) {
+                if (boll.Qy <= 1) {
+                    boll.Qy = 1.9;
+                } else if (boll.Qy >= height - 2) {
+                    boll.Qy = height - 2;
+                }
+                antL = boll.d[1] == 0 ? -1 : 1;
                 boll.d[1] = boll.d[1] == 0 ? 1 : 0;
-                boll.Qy += boll.d[1] == 0 ? -2 : 2;
+                boll.v[1] += 0.05;
             }
             
         }
