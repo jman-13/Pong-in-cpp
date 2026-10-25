@@ -83,7 +83,6 @@ int main(void) {
     boll.v[1] = 0.3;
     
     int L = 0;
-    int PrefL;
     int antL = -2;
 
     nodelay(W, TRUE);
@@ -146,7 +145,7 @@ int main(void) {
             
             if ((boll.Qy <= 1 || boll.Qy >= height - 2) && L != antL) {
                 if (boll.Qy <= 1) {
-                    boll.Qy = 1.9;
+                    boll.Qy = 2;
                 } else if (boll.Qy >= height - 2) {
                     boll.Qy = height - 2;
                 }
