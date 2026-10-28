@@ -111,22 +111,51 @@ int main(void) {
         wrefresh(W);
 
         if (boll.x == 2 || boll.x == 1) {
-                for (int i = 0; i < 4; i++) {
-                    if (boll.y == i + player1) {
-                        boll.d[0] = 1;
-                        boll.v[0] += 0.1;
-                        break;
+            for (int i = 0; i < 4; i++) {
+                if (boll.y == i + player1) {
+                    boll.d[0] = 1;
+                    switch (i) {
+                        case 0:
+                            boll.v[1] = 0.75;
+                            break;
+                        case 1:
+                            boll.v[1] = 0.5;
+                            break;
+                        case 2:
+                            boll.v[1] = -0.5;
+                            break;
+                        case 3:
+                            boll.v[1] = -0.75;
+                            break;
                     }
-                }
-            } else if (boll.x == width - 3 || boll.x == width - 2) {
-                for (int i = 0; i < 4; i++) {
-                    if (boll.y == i + player2) {
-                        boll.d[0] = 0;
-                        boll.v[0] += 0.1;
-                        break;
-                    }
+                    boll.v[0] += 0.1;
+                    break;
                 }
             }
+        } else if (boll.x == width - 3 || boll.x == width - 2) {
+            for (int i = 0; i < 4; i++) {
+                if (boll.y == i + player2) {
+                    boll.d[0] = 0;
+                    switch (i) {
+                        case 0:
+                            boll.v[1] = 0.75;
+                            break;
+                        case 1:
+                            boll.v[1] = 0.5;
+                            break;
+                        case 2:
+                            boll.v[1] = -0.5;
+                                break;
+                        case 3:
+                            boll.v[1] = -0.75;
+                            break;
+                    }
+                    boll.v[0] += 0.1;
+                    break;
+                }
+            }
+        }
+        std::cout << boll.v[1] << "\n";
             
         if (boll.y == 1) {
             L = -1;
@@ -139,7 +168,7 @@ int main(void) {
         auto ahora = std::chrono::steady_clock::now();
         auto ahora1 = std::chrono::steady_clock::now();
         if (ahora - ultimoMovimiento >= std::chrono::milliseconds(65)) {
-            boll.Qy += boll.d[1] == 0 ? -boll.v[1] : boll.v[1];
+            boll.Qy += boll.d[1] == 0 ? -(boll.v[1]) : boll.v[1];
 
             ultimoMovimiento = ahora;
             
@@ -151,7 +180,6 @@ int main(void) {
                 }
                 antL = boll.d[1] == 0 ? -1 : 1;
                 boll.d[1] = boll.d[1] == 0 ? 1 : 0;
-                boll.v[1] += 0.05;
             }
             
         }
@@ -163,7 +191,7 @@ int main(void) {
         }
         
 
-    napms(16); 
+        napms(16); 
         boll.x = boll.Qx;
         boll.y = boll.Qy;
 
